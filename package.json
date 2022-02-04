@@ -10,7 +10,8 @@
     "dev": "webpack serve --open",
     "lint": "eslint . --ext .js,.ts && tsc --noEmit",
     "lint:fix": "eslint . --ext .js,.ts --fix && tsc --noEmit",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "db-server": "json-server -w db.json"
   },
   "repository": {
     "type": "git",
@@ -50,7 +51,10 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.25.0",
+    "json-server": "^0.17.0"
+  },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,css,md,yml}": "prettier --write"
