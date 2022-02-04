@@ -1,4 +1,4 @@
-import { HasId, CRUD } from "./StorageInterface";
+import { CRUD, HasId } from "./StorageInterface";
 
 export class LocalStorage<T extends HasId> implements CRUD<T> {
   private elems: T[] = [];
@@ -14,7 +14,7 @@ export class LocalStorage<T extends HasId> implements CRUD<T> {
     });
   }
 
-  fetch(id: number): Promise<T | null> {
+  fetch(id: number): Promise<T> {
     return new Promise((resolve, reject) => {
       const idx = this.findIndexById(id);
       if (idx !== -1) {
@@ -54,7 +54,7 @@ export class LocalStorage<T extends HasId> implements CRUD<T> {
         resolve(true);
       }
 
-      reject(false);
+      throw new Error(`Cant find entity with id=${id}`);
     });
   }
 
