@@ -1,10 +1,29 @@
-import { CRUD, HasId } from "./StorageInterface";
+import { iStorage, HasId } from "./StorageInterface";
+interface iInstance {
+  [index: string]: any; // ???
+}
 
-export class LocalStorage<T extends HasId> implements CRUD<T> {
+export class LocalStorage<T extends HasId> implements iStorage<T> {
+  private static instances: iInstance = {};
   private elems: T[] = [];
 
   constructor(private entityName: string) {
     this.elems = this.unpackFromStorage();
+  }
+
+  static getInstance(entityName: string) {
+    if (!LocalStorage.instances[entityName]) {
+      LocalStorage.instances[entityName] = new LocalStorage(entityName);
+    }
+    return LocalStorage.instances[entityName];
+  }
+
+  clear(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.elems = [];
+      this.packToStorage();
+      resolve(true);
+    });
   }
 
   fetchAll(): Promise<T[]> {
@@ -25,7 +44,7 @@ export class LocalStorage<T extends HasId> implements CRUD<T> {
     });
   }
 
-  save(data: T): Promise<boolean> {
+  save(data: T): Promise<number> {
     return new Promise((resolve) => {
       if (data.id) {
         const idx = this.findIndexById(data.id);
@@ -41,7 +60,7 @@ export class LocalStorage<T extends HasId> implements CRUD<T> {
 
       this.packToStorage();
 
-      resolve(true);
+      resolve(data.id);
     });
   }
 

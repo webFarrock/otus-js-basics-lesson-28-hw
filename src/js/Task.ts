@@ -1,6 +1,6 @@
 import { JsonDb } from "./Storage/JsonDb";
 import { LocalStorage } from "./Storage/LocalStorage";
-import { CRUD } from "./Storage/StorageInterface";
+import { iStorage } from "./Storage/StorageInterface";
 
 import { Attributes } from "./Attributes";
 import { Model } from "./Model";
@@ -19,8 +19,8 @@ export interface TaskProps {
   tags?: string[];
 }
 
-const entityName = "tasks";
-const rootUrl = `http://localhost:3000/${entityName}`;
+export const entityName = "tasks";
+export const rootUrl = `http://localhost:3000/${entityName}`;
 
 export class Task extends Model<TaskProps> {
   static buildCollection(storageType: StorageType): Promise<Task[]> {
@@ -48,15 +48,13 @@ export class Task extends Model<TaskProps> {
     return new Task(new Attributes<TaskProps>(attrs), storage);
   }
 
-  private static buildStorageByType(storageType: StorageType): CRUD<TaskProps> | null {
+  private static buildStorageByType(storageType: StorageType): iStorage<TaskProps> | null {
     switch (storageType) {
       case StorageType.localStorage: {
-        return new LocalStorage(entityName);
-        break;
+        return LocalStorage.getInstance(entityName);
       }
       case StorageType.jsonDb: {
-        return new JsonDb(rootUrl);
-        break;
+        return JsonDb.getInstance(rootUrl);
       }
     }
 

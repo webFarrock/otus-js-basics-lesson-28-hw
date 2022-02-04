@@ -1,8 +1,8 @@
-import { CRUD, HasId } from "./Storage/StorageInterface";
+import { iStorage, HasId } from "./Storage/StorageInterface";
 import { ModelAttrs } from "./Attributes";
 
 export class Model<T extends HasId> {
-  constructor(private attrs: ModelAttrs<T>, private sync: CRUD<T>) {}
+  constructor(private attrs: ModelAttrs<T>, private sync: iStorage<T>) {}
 
   get<K extends keyof T>(key: K): T[K] {
     return this.attrs.get(key);
@@ -22,7 +22,7 @@ export class Model<T extends HasId> {
     return this.sync.fetch(id);
   }
 
-  save(): Promise<boolean> {
+  save(): Promise<number | null> {
     return this.sync.save(this.attrs.getAll());
   }
 
