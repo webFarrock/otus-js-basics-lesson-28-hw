@@ -1,8 +1,8 @@
-import { iStorage, HasId } from "./Storage/StorageInterface";
+import { IStorage, IHasId } from "./Storage/StorageInterface";
 import { ModelAttrs } from "./Attributes";
 
-export class Model<T extends HasId> {
-  constructor(private attrs: ModelAttrs<T>, private sync: iStorage<T>) {}
+export class Model<T extends IHasId> {
+  constructor(private attrs: ModelAttrs<T>, private sync: IStorage<T>) {}
 
   get<K extends keyof T>(key: K): T[K] {
     return this.attrs.get(key);

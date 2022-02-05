@@ -1,9 +1,9 @@
-import { iStorage, HasId } from "./StorageInterface";
+import { IStorage, IHasId } from "./StorageInterface";
 interface iInstance {
   [index: string]: any; // ???
 }
 
-export class LocalStorage<T extends HasId> implements iStorage<T> {
+export class LocalStorage<T extends IHasId> implements IStorage<T> {
   private static instances: iInstance = {};
   private elems: T[] = [];
 
@@ -65,7 +65,7 @@ export class LocalStorage<T extends HasId> implements iStorage<T> {
   }
 
   delete(id: number): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const idx = this.findIndexById(id);
       if (idx !== -1) {
         this.elems.splice(idx, 1);

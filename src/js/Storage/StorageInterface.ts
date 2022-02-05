@@ -1,4 +1,4 @@
-export interface iStorage<T> {
+export interface IStorage<T> {
   clear(): Promise<boolean>;
   fetchAll(): Promise<T[]>;
   fetch(id: number): Promise<T>;
@@ -6,6 +6,6 @@ export interface iStorage<T> {
   delete(id: number): Promise<boolean>;
 }
 
-export interface HasId {
+export interface IHasId {
   id?: number;
 }

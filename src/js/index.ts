@@ -2,12 +2,11 @@ import { LocalStorageTask } from "./LocalStorageTask";
 import { JsonDbTask } from "./JsonDbTask";
 import { LocalStorage } from "./Storage/LocalStorage";
 import { JsonDb } from "./Storage/JsonDb";
-import { entityName, rootUrl } from "./Task";
-
+import { TASK_ENTITY_NAME, TASK_ROOT_URL } from "./Task";
 
 (async function () {
-  await new LocalStorage(entityName).clear();
-  await new JsonDb(rootUrl).clear();
+  await new LocalStorage(TASK_ENTITY_NAME).clear();
+  await new JsonDb(TASK_ROOT_URL).clear();
 })();
 
 const lTask_1 = LocalStorageTask.buildItem({ text: "local one" });
@@ -67,4 +66,3 @@ jsonTask_2
   .catch((e) => {
     console.log("error while saving jsonTask_2: ", e);
   });
-

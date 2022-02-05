@@ -1,11 +1,11 @@
-import axios, { AxiosPromise, AxiosResponse } from "axios";
-import { HasId, iStorage } from "./StorageInterface";
+import axios, { AxiosResponse } from "axios";
+import { IHasId, IStorage } from "./StorageInterface";
 
 interface iInstance {
   [index: string]: any; // ???
 }
 
-export class JsonDb<T extends HasId> implements iStorage<T> {
+export class JsonDb<T extends IHasId> implements IStorage<T> {
   private static instances: iInstance = {};
 
   constructor(private rootUrl: string) {}
@@ -41,7 +41,7 @@ export class JsonDb<T extends HasId> implements iStorage<T> {
     if (id) {
       return axios.put(`${this.rootUrl}/${id}`, data).then(() => id);
     } else {
-      return axios.post(this.rootUrl, data).then((res) => {
+      return axios.post(this.rootUrl, data).then((res: AxiosResponse) => {
         if (res?.data?.id) {
           return res.data.id;
         }

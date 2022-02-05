@@ -1,8 +1,8 @@
-import { Task, TaskProps } from "./Task";
+import { Task, ITaskProps } from "./Task";
 import { StorageType } from "./Storage/StorageType";
 
 export class JsonDbTask {
-  static buildItem(attrs: TaskProps): Task {
+  static buildItem(attrs: ITaskProps): Task {
     return Task.buildItem(attrs, StorageType.jsonDb);
   }
 
