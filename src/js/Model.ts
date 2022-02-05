@@ -12,14 +12,22 @@ export class Model<T extends IHasId> {
     this.attrs.set(update);
   }
 
-  fetch(): Promise<T> {
+  fetch(): Promise<boolean> {
     const id = this.get("id");
 
     if (typeof id !== "number") {
       return Promise.reject(new Error("Cannot fetch without an id"));
     }
 
-    return this.sync.fetch(id);
+    return this.sync
+      .fetch(id)
+      .then((res) => {
+        this.attrs.set(res);
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
   }
 
   save(): Promise<number | null> {
