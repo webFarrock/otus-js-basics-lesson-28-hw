@@ -8,6 +8,9 @@ export class LocalStorage<T extends IHasId> implements IStorage<T> {
   private elems: T[] = [];
 
   constructor(private entityName: string) {
+    if (LocalStorage.instances[entityName]) {
+      return LocalStorage.instances[entityName];
+    }
     this.elems = this.unpackFromStorage();
   }
 
@@ -84,7 +87,8 @@ export class LocalStorage<T extends IHasId> implements IStorage<T> {
   private unpackFromStorage(): T[] {
     const elems = localStorage.getItem(this.entityName);
     if (elems) {
-      return JSON.parse(elems) as T[];
+      const parsed = JSON.parse(elems);
+      return Array.isArray(parsed) ? parsed : [];
     }
     return [];
   }

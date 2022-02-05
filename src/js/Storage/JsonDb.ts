@@ -8,7 +8,11 @@ interface iInstance {
 export class JsonDb<T extends IHasId> implements IStorage<T> {
   private static instances: iInstance = {};
 
-  constructor(private rootUrl: string) {}
+  constructor(private rootUrl: string) {
+    if (JsonDb.instances[rootUrl]) {
+      return JsonDb.instances[rootUrl];
+    }
+  }
 
   static getInstance(rootUrl: string) {
     if (!JsonDb.instances[rootUrl]) {
