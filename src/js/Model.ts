@@ -30,8 +30,12 @@ export class Model<T extends IHasId> {
       });
   }
 
-  save(): Promise<number | null> {
-    return this.sync.save(this.attrs.getAll());
+  async save(): Promise<number | null> {
+    const id = await this.sync.save(this.attrs.getAll());
+    if (id !== null) {
+      this.attrs.set({ id } as T);
+    }
+    return Promise.resolve(id);
   }
 
   delete(): Promise<boolean> {
