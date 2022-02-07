@@ -55,9 +55,14 @@ export class JsonDb<T extends IHasId> implements IStorage<T> {
   }
 
   delete(id: number): Promise<boolean> {
-    return axios.delete(`${this.rootUrl}/${id}`).then(() => {
-      return true;
-    });
+    return axios
+      .delete(`${this.rootUrl}/${id}`)
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        throw new Error(`Cant find entity with id=${id}`);
+      });
   }
 
   fetchAll(): Promise<T[]> {
